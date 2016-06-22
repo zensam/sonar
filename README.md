@@ -1,2 +1,1 @@
-# sonar
-SonarQube for Max
+### SonarQube docker container for Kubernetes
