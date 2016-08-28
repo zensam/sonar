@@ -18,7 +18,7 @@ ENV TERM=xterm \
 
 RUN apt-get -q -y update \
     && apt-get -q -y upgrade \
-    && apt-get -q -y install mc net-tools sudo wget curl unzip vim postgresql \
+    && apt-get -q -y install dnsutils mc net-tools nmap sudo wget curl unzip vim postgresql \
     # && echo "$SQ_USER ALL=NOPASSWD: ALL" >> /etc/sudoers \
     && rm -rf /var/lib/apt/lists/*
 
@@ -86,7 +86,7 @@ RUN set -x \
     # && /etc/init.d/postgresql stop
     && service postgresql stop
 
-# VOLUME ["$SONARQUBE_HOME/data", "$SONARQUBE_HOME/extensions"]
+VOLUME ["$SONARQUBE_HOME/data", "$SONARQUBE_HOME/extensions"]
 
 # ENTRYPOINT ["/bin/bash"]
 CMD service postgresql start && sleep 10 && service sonar start \
