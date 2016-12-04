@@ -1,7 +1,7 @@
 FROM java:8
 
 ENV TERM=xterm \
-    SONARQUBE_VERSION=5.6.1 \
+    SONARQUBE_VERSION=5.6.3 \
     # Postgresql version
     PG_VERSION=9.4 \
     # Do not use SONARQUBE_HOME until it is created with
