@@ -1,4 +1,4 @@
-### SonarQube docker container for Kubernetes
+### SonarQube as a linux service in docker container
 
 ##### Run SonarQube docker container
 ```bash
