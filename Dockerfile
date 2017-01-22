@@ -1,7 +1,9 @@
 FROM java:8
+MAINTAINER Sergii Marynenko <marynenko@gmail.com>
+LABEL version="5.6.4"
 
 ENV TERM=xterm \
-    SONARQUBE_VERSION=5.6.3 \
+    SONARQUBE_VERSION=5.6.4 \
     # Postgresql version
     PG_VERSION=9.4 \
     # Do not use SONARQUBE_HOME until it is created with
@@ -17,7 +19,7 @@ ENV TERM=xterm \
     SONARQUBE_JDBC_URL=jdbc:postgresql://localhost/sonar
 
 RUN apt-get -q -y update \
-    && apt-get -q -y install dnsutils mc net-tools nmap sudo wget curl unzip vim postgresql \
+    && apt-get -q -y install dnsutils sudo wget curl unzip vim postgresql \
     # && echo "$SQ_USER ALL=NOPASSWD: ALL" >> /etc/sudoers \
     && rm -rf /var/lib/apt/lists/*
 
