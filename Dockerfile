@@ -1,6 +1,6 @@
 FROM java:8
 MAINTAINER Sergii Marynenko <marynenko@gmail.com>
-LABEL version="5.6.5"
+LABEL version="5.6.6"
 
 ENV TERM=xterm \
     SONARQUBE_VERSION=5.6.4 \
