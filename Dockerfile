@@ -4,6 +4,7 @@ MAINTAINER Sergii Marynenko <marynenko@gmail.com>
 LABEL version="6.7.1"
 
 ENV TERM=xterm \
+    SONARQUBE_USER=sonarqube \
     SONARQUBE_VERSION=6.7.1 \
     # Postgresql version
     PG_VERSION=9.6 \
@@ -27,6 +28,9 @@ RUN apt-get -q -y update \
 
 # Postgresql database and SonarQube http ports
 EXPOSE 5432 9000
+
+# Add sonarqube system user, es doesn't start from root
+RUN groupadd -r $SONARQUBE_USER && useradd -r -g $SONARQUBE_USER $SONARQUBE_USER
 
 # COPY sonar /etc/init.d/
 # COPY sonar.ldap /tmp/
@@ -77,6 +81,8 @@ RUN set -x \
     # http://sonarsource.bintray.com/Distribution/sonar-ldap-plugin/sonar-ldap-plugin-2.0.jar \
     # && cat /tmp/sonar.ldap >> $SONARQUBE_HOME/conf/sonar.properties \
     && ln -s $SONARQUBE_HOME/bin/linux-x86-64/sonar.sh /usr/bin/sonar \
+    && sed -i '/RUN_AS_USER=/s/^#//' /usr/bin/sonar \
+    && sed -i 's/^RUN_AS_USER=/RUN_AS_USER='$SONARQUBE_USER'/g' /usr/bin/sonar \
     && mv /tmp/sonar /etc/init.d/sonar \
     && chmod 755 /etc/init.d/sonar \
     && update-rc.d sonar defaults \
@@ -86,7 +92,11 @@ RUN set -x \
 
 VOLUME ["$SONARQUBE_HOME/data", "$SONARQUBE_HOME/extensions"]
 
+# WORKDIR $SONARQUBE_HOME
+# COPY run.sh $SONARQUBE_HOME/bin/
+
 # ENTRYPOINT ["/bin/bash"]
 CMD service postgresql start && sleep 10 && service sonar start \
-    && tail -F /var/log/postgresql/postgresql-$PG_VERSION-main.log $SONARQUBE_HOME/logs/sonar.log
+    && tail -F $SONARQUBE_HOME/logs/sonar.log
+    # && tail -F /var/log/postgresql/postgresql-$PG_VERSION-main.log $SONARQUBE_HOME/logs/sonar.log
 # CMD service postgresql start && tail -F /var/log/postgresql/postgresql-$PG_VERSION-main.log
