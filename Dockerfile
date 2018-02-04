@@ -1,4 +1,4 @@
-FROM java:8
+FROM openjdk:8
 MAINTAINER Sergii Marynenko <marynenko@gmail.com>
 # LABEL version="5.6.6"
 LABEL version="6.7.1"
