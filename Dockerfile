@@ -20,7 +20,8 @@ ENV TERM=xterm \
     SONARQUBE_JDBC_URL=jdbc:postgresql://localhost/sonar
 
 RUN apt-get -q -y update \
-    && apt-get -q -y install apt-utils dnsutils sudo wget curl unzip vim postgresql \
+    && apt-get -q -y upgrade \
+    && apt-get -q -y install apt-utils dnsutils gnupg sudo wget curl unzip vim postgresql \
     # && echo "$SQ_USER ALL=NOPASSWD: ALL" >> /etc/sudoers \
     && rm -rf /var/lib/apt/lists/*
 
@@ -44,11 +45,11 @@ RUN set -x \
     # see https://bugs.debian.org/812708
     # and https://github.com/SonarSource/docker-sonarqube/pull/18#issuecomment-194045499
     && cd /tmp \
-    && curl -fSL -O "https://archive.raspbian.org/raspbian/pool/main/c/ca-certificates/ca-certificates_20130119+deb7u1_all.deb" \
-    && echo "3494ecfd607e4233d8d1a656eceb6bd109d756bc0afe9d3b29dfc0acc4fe19cf  ca-certificates_20130119+deb7u1_all.deb" | sha256sum -c - \
+    && curl -fSL -O "https://archive.raspbian.org/raspbian/pool/main/c/ca-certificates/ca-certificates_20130119+deb7u2_all.deb" \
+    && echo "03521f6c1ade5682c65c5502c126c686eeea918aaaacdf487a09960b827cbf23  ca-certificates_20130119+deb7u2_all.deb" | sha256sum -c - \
     && dpkg -P --force-all ca-certificates \
-    && dpkg -i ca-certificates_20130119+deb7u1_all.deb \
-    && rm ca-certificates_20130119+deb7u1_all.deb \
+    && dpkg -i ca-certificates_20130119+deb7u2_all.deb \
+    && rm ca-certificates_20130119+deb7u2_all.deb \
     # pub   2048R/D26468DE 2015-05-25
     #       Key fingerprint = F118 2E81 C792 9289 21DB  CAB4 CFCA 4A29 D264 68DE
     # uid                  sonarsource_deployer (Sonarsource Deployer) <infra@sonarsource.com>
